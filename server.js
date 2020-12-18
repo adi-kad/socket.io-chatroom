@@ -12,15 +12,20 @@ http.listen(8080, () => {
 //Set folder for static files to be served by express
 app.use(express.static("public"));
 
+//For users on server
+const users = [];
+
 //Runs when user connects
 io.on('connection', (socket) => {
     console.log('a user connected with id: ' + socket.id);
 
+    //Broadcast to other users when new user connects
+    socket.on('new-user', username => {
+        socket.broadcast.emit('message', ("" + username + " has joined the chat"));
+    })
+
     //Welcome user with message
     socket.emit('message', "Welcome to ChatRoom");
-
-    //Broadcast to other users when new user connects
-    socket.broadcast.emit('message', "a user has joined the chat");
 
     //Send message when user leaves chat
     socket.on('disconnect', socket => {
@@ -30,7 +35,7 @@ io.on('connection', (socket) => {
     //Listen for when user sends a chat message
     socket.on('send-chat-message', message => {
         console.log(message);
-        io.emit('message', message);
+        io.emit('chat-message', message);
     })
 
 });
