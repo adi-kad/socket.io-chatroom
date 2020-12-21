@@ -9,8 +9,9 @@ const usernameInput = document.getElementById('username-input');
 
 //Listen for events from server
 socket.on('chat-history', data => {
+    console.log(data);
     data.forEach(chatMsg => {
-        appendMessage(chatMsg)
+        appendChatMessage(chatMsg);
     });
 });
 
@@ -50,6 +51,6 @@ function appendMessage(message) {
 
 function appendChatMessage(message) {
     var div = document.createElement('div');
-    div.innerHTML = "<p>" + message.username + ": " + message.message + "</p>";
+    div.innerHTML = "<p id=\"chat-message\"><span>" + message.username + "</span><br>" + message.message + "</p>";
     chatOutput.append(div);
 }

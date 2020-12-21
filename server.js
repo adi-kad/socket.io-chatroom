@@ -13,27 +13,20 @@ http.listen(8080, () => {
 //Set folder for static files to be served by express
 app.use(express.static("public"));
 
-//For users on server
+//store users on server
 const users = [];
-
-
 
 
 //Runs when user connects
 io.on('connection', (socket) => {
-
-    var data = fs.readFileSync("chathistory.json");
-    var dataoutput = JSON.parse(data);
-    console.log(dataoutput);
-
-    //TBD -- Chat history with JSON
-    var filetext = fs.readFileSync('messages.txt', 'utf-8');
-    var lines = [];
-    lines = filetext.split("§");
-    socket.emit('chat-history', lines);
-
-
     console.log('a user connected with id: ' + socket.id);
+
+    //parsing previous chat messages and sending to client
+    var chatHistory = [];
+    chatData = fs.readFileSync("new.json");
+    chatHistory = JSON.parse(chatData);
+    socket.emit('chat-history', chatHistory);
+
     //Broadcast to other users when new user connects
     socket.on('new-user', username => {
         users.push(socket.id);
@@ -51,15 +44,21 @@ io.on('connection', (socket) => {
 
     //Listen for when user sends a chat message
     socket.on('send-chat-message', message => {
-        console.log(message);
-        io.emit('chat-message', {
+
+        chatMessage = {
             message: message,
             username: users[socket.id]
-        });
+        }
 
-        fs.appendFile('messages.txt', users[socket.id] + ": " + message + "§", function(err, data) {
+        io.emit('chat-message', chatMessage);
+
+        chatHistory.push(chatMessage);
+        fs.writeFile("new.json", JSON.stringify(chatHistory), (err) => {
             if (err) throw err;
-        });
+            console.log("Saved to JSON-file");
+        })
+
+        console.log(chatHistory);
     })
 
 });
