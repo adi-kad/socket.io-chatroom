@@ -9,19 +9,26 @@
 </head>
 
 <body>
-    <h1>ChatRoom</h1>
+
     <form id="username-form">
         <input type="text" placeholder="Enter username" id="username-input">
         <button type="submit" id="username-send-button">Join chat</button>
     </form>
     <div id="chat-container">
+        <div id="chat-header">
+            <h1>ChatRoom</h1>
+        </div>
         <div id="chat-messages">
-
+            <div id="chat-output">
+                <p id="chat-message">
+                    <span id="username">Namn</span><br> Haahahaha grym chatt!
+                </p>
+            </div>
         </div>
         <div id="chat-user-area">
             <form id="chat-form">
-                <input type="text" id="chat-message">
-                <button type="submit" id="send-button">Send message</button>
+                <input type="text" id="chat-message-input">
+                <button type="submit" id="send-button">Send</button>
             </form>
         </div>
     </div>

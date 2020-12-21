@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Lato";
+}
+
+#chat-container {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+    height: 80vh;
+    background-color: lightblue;
+}
+
+#chat-header {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+#chat-user-area {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+#chat-form {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px;
+}
+
+#chat-form input {
+    width: 100%;
+    padding: 25px;
+}
+
+#chat-form button {
+    position: absolute;
+    right: 0;
+    margin: 25px;
+    background: transparent;
+    border: none;
+}
+
+p#chat-message {
+    margin: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: cadetblue;
+    display: inline-block;
+}

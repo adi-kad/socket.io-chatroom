@@ -3,6 +3,7 @@ const express = require('express')
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+var fs = require('fs');
 
 //Listen on port 8080
 http.listen(8080, () => {
@@ -15,12 +16,28 @@ app.use(express.static("public"));
 //For users on server
 const users = [];
 
+
+
+
 //Runs when user connects
 io.on('connection', (socket) => {
-    console.log('a user connected with id: ' + socket.id);
 
+    var data = fs.readFileSync("chathistory.json");
+    var dataoutput = JSON.parse(data);
+    console.log(dataoutput);
+
+    //TBD -- Chat history with JSON
+    var filetext = fs.readFileSync('messages.txt', 'utf-8');
+    var lines = [];
+    lines = filetext.split("§");
+    socket.emit('chat-history', lines);
+
+
+    console.log('a user connected with id: ' + socket.id);
     //Broadcast to other users when new user connects
     socket.on('new-user', username => {
+        users.push(socket.id);
+        users[socket.id] = username;
         socket.broadcast.emit('message', ("" + username + " has joined the chat"));
     })
 
@@ -35,7 +52,14 @@ io.on('connection', (socket) => {
     //Listen for when user sends a chat message
     socket.on('send-chat-message', message => {
         console.log(message);
-        io.emit('chat-message', message);
+        io.emit('chat-message', {
+            message: message,
+            username: users[socket.id]
+        });
+
+        fs.appendFile('messages.txt', users[socket.id] + ": " + message + "§", function(err, data) {
+            if (err) throw err;
+        });
     })
 
 });
