@@ -16,31 +16,28 @@ app.use(express.static("public"));
 //store users on server
 const users = [];
 
-
 //Runs when user connects
 io.on('connection', (socket) => {
+
     console.log('a user connected with id: ' + socket.id);
+    var userName = "";
 
     //parsing previous chat messages and sending to client
     var chatHistory = [];
-    chatData = fs.readFileSync("new.json");
+    chatData = fs.readFileSync("chathistory.json");
     chatHistory = JSON.parse(chatData);
     socket.emit('chat-history', chatHistory);
+
+    //Welcome user with message
+    //socket.emit('message', "Welcome to ChatRoom");
 
     //Broadcast to other users when new user connects
     socket.on('new-user', username => {
         users.push(socket.id);
         users[socket.id] = username;
+        userName = username;
         socket.broadcast.emit('message', ("" + username + " has joined the chat"));
     })
-
-    //Welcome user with message
-    socket.emit('message', "Welcome to ChatRoom");
-
-    //Send message when user leaves chat
-    socket.on('disconnect', socket => {
-        io.emit('message', "a user left the chat");
-    });
 
     //Listen for when user sends a chat message
     socket.on('send-chat-message', message => {
@@ -52,13 +49,18 @@ io.on('connection', (socket) => {
 
         io.emit('chat-message', chatMessage);
 
+        //Storing chat message in JSON-file
         chatHistory.push(chatMessage);
-        fs.writeFile("new.json", JSON.stringify(chatHistory), (err) => {
+        fs.writeFile("chathistory.json", JSON.stringify(chatHistory), (err) => {
             if (err) throw err;
             console.log("Saved to JSON-file");
         })
 
-        console.log(chatHistory);
     })
+
+    //Send message when user leaves chat
+    socket.on('disconnect', socket => {
+        io.emit('message', userName + " has left the chat");
+    });
 
 });
