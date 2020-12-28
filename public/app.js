@@ -9,13 +9,13 @@ const usernameForm = document.getElementById('username-form');
 const usernameInput = document.getElementById('username-input');
 
 
-
 //Listen for events from server
 socket.on('chat-history', data => {
     console.log(data);
     data.forEach(chatMsg => {
         appendChatMessage(chatMsg);
     });
+
     //setting scroll to latest messages
     chatOutput.scrollTop = chatOutput.scrollHeight;
 });

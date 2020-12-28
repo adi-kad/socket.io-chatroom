@@ -37,6 +37,7 @@ io.on('connection', (socket) => {
         users[socket.id] = username;
         userName = username;
         socket.broadcast.emit('message', ("" + username + " has joined the chat"));
+        console.log("Users online: " + users.length);
     })
 
     //Listen for when user sends a chat message
@@ -44,7 +45,7 @@ io.on('connection', (socket) => {
 
         chatMessage = {
             message: message,
-            username: users[socket.id]
+            username: userName
         }
 
         io.emit('chat-message', chatMessage);
