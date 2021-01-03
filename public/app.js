@@ -8,7 +8,6 @@ const chatOutput = document.getElementById('chat-messages');
 const usernameForm = document.getElementById('username-form');
 const usernameInput = document.getElementById('username-input');
 
-
 //Listen for events from server
 socket.on('chat-history', data => {
     console.log(data);
@@ -42,6 +41,7 @@ usernameForm.addEventListener('submit', (e) => {
         chatContainer.style.display = "block";
         usernameForm.style.display = "none";
         const username = usernameInput.value;
+        chatMessageInput.setAttribute('placeholder', (username + ":"));
         socket.emit('new-user', username);
     }
 

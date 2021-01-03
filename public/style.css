@@ -60,9 +60,18 @@ body {
     background-image: url("/backgroundpattern2.png");
     position: relative;
     width: 80%;
-    margin: 50px auto;
-    height: 80vh;
+    margin: 30px auto;
+    height: 600px;
     border: 2px solid #ccc;
+}
+
+#chat-header {
+    border-bottom: 0.5px solid #ccc;
+    background-color: #f3f3f3;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #chat-header h1 {
@@ -74,8 +83,7 @@ body {
 
 #chat-user-area {
     width: 100%;
-    position: absolute;
-    bottom: 0px;
+    height: 100px;
 }
 
 #chat-form {
@@ -83,11 +91,14 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 20px 20px;
+    border-top: 0.5px solid #ccc;
+    background-color: #f3f3f3;
 }
 
 #chat-form input {
     width: 90%;
-    padding: 25px;
+    padding: 15px;
+    outline: none;
 }
 
 #chat-form button {
@@ -97,9 +108,8 @@ body {
 
 #chat-messages {
     background-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 3px 0 5px 0 #ccc;
     padding: 15px 0;
-    height: 75%;
+    height: 450px;
     overflow-y: scroll;
 }
 

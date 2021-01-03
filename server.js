@@ -28,9 +28,6 @@ io.on('connection', (socket) => {
     chatHistory = JSON.parse(chatData);
     socket.emit('chat-history', chatHistory);
 
-    //Welcome user with message
-    //socket.emit('message', "Welcome to ChatRoom");
-
     //Broadcast to other users when new user connects
     socket.on('new-user', username => {
         users.push(socket.id);
