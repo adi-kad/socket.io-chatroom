@@ -15,6 +15,7 @@ app.use(express.static("public"));
 
 //store users on server
 const users = [];
+var chatHistory = [];
 
 //Runs when user connects
 io.on('connection', (socket) => {
@@ -23,7 +24,6 @@ io.on('connection', (socket) => {
     var userName = "";
 
     //parsing previous chat messages and sending to client
-    var chatHistory = [];
     chatData = fs.readFileSync("chathistory.json");
     chatHistory = JSON.parse(chatData);
     socket.emit('chat-history', chatHistory);
@@ -57,7 +57,10 @@ io.on('connection', (socket) => {
 
     //Send message when user leaves chat
     socket.on('disconnect', socket => {
-        io.emit('message', userName + " has left the chat");
+        if (userName !== "") {
+            io.emit('message', userName + " has left the chat");
+        }
+
     });
 
 });
