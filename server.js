@@ -19,7 +19,6 @@ var chatHistory = [];
 
 //Runs when user connects
 io.on('connection', (socket) => {
-
     console.log('a user connected with id: ' + socket.id);
     var userName = "";
 
@@ -38,7 +37,6 @@ io.on('connection', (socket) => {
 
     //Listen for when user sends a chat message
     socket.on('send-chat-message', message => {
-
         chatMessage = {
             message: message,
             username: userName
@@ -52,7 +50,6 @@ io.on('connection', (socket) => {
             if (err) throw err;
             console.log("Saved to JSON-file");
         })
-
     })
 
     //Send message when user leaves chat
@@ -60,7 +57,5 @@ io.on('connection', (socket) => {
         if (userName !== "") {
             io.emit('message', userName + " has left the chat");
         }
-
     });
-
 });
